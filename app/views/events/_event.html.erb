@@ -1,27 +1,53 @@
-<div id="<%= dom_id event %>">
-  <p>
-    <strong>Title:</strong>
-    <%= event.title %>
-  </p>
+<ul role="list" class="divide-y divide-gray-100">
+  <!-- Detalle del evento -->
+  <li class="flex gap-x-6 justify-between py-5">
+    <div class="flex gap-x-4 min-w-0">
+      <div class="flex-auto min-w-0">
+        <p class="text-sm font-semibold leading-6 text-gray-900"><%= event.title %></p>
+      </div>
+    </div>
+    <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+      <p class="text-sm leading-6 text-gray-900">Start: <%= event.start_time.strftime("%A, %d %B %Y %I:%M %p") %></p>
+      <p class="mt-1 text-xs leading-5 text-gray-500">End: <%= event.end_time.strftime("%A, %d %B %Y %I:%M %p") %></p>
+    </div>
+  </li>
 
-  <p>
-    <strong>Start time:</strong>
-    <%= event.start_time %>
-  </p>
+  <!-- Detalle del trabajador -->
+  <li class="flex gap-x-6 justify-between py-5">
+    <div class="flex gap-x-4 min-w-0">
+      <img class="flex-none w-12 h-12 bg-gray-50 rounded-full" src="https://via.placeholder.com/150" alt="Worker Image">
+      <div class="flex-auto min-w-0">
+        <p class="text-sm font-semibold leading-6 text-gray-900"><%= event.worker.name %></p>
+        <p class="mt-1 text-xs leading-5 text-gray-500 truncate"><%= event.worker.email %></p>
+      </div>
+    </div>
+    <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+      <p class="text-sm leading-6 text-gray-900">Assigned Worker</p>
+      <p class="mt-1 text-xs leading-5 text-gray-500">Position: <%= event.worker.role %></p>
+    </div>
+  </li>
 
-  <p>
-    <strong>End time:</strong>
-    <%= event.end_time %>
-  </p>
-
-  <p>
-    <strong>Location:</strong>
-    <%= event.location %>
-  </p>
-
-  <p>
-    <strong>Worker:</strong>
-    <%= event.worker.name %>
-  </p>
-
-</div>
+  <!-- Información del clima (si está disponible) -->
+  <% if event.weather_info %>
+    <li class="flex gap-x-6 justify-between py-5">
+      <div class="flex gap-x-4 min-w-0">
+        <div class="flex-auto min-w-0">
+           <p class="mt-1 text-xs leading-5 text-gray-500 truncate">Location: <%= event.location %></p>
+          <p class="text-sm font-semibold leading-6 text-gray-900">Weather: <%= event.weather_info["weather_title"] %></p>
+          <p class="mt-1 text-xs leading-5 text-gray-500 truncate">Description: <%= event.weather_info["weather_description"] %></p>
+        </div>
+      </div>
+      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+        <p class="text-sm leading-6 text-gray-900">Temperature: <%= (event.weather_info["temperature"] - 273.15).round(1) %>°C</p>
+        <p class="mt-1 text-xs leading-5 text-gray-500">Humidity: <%= event.weather_info["humidity"] %>%</p>
+        <p class="mt-1 text-xs leading-5 text-gray-500">Wind Speed: <%= event.weather_info["wind_speed"] %> m/s</p>
+      </div>
+    </li>
+  <% else %>
+    <li class="flex gap-x-6 justify-between py-5">
+      <div class="flex-auto min-w-0">
+        <p class="text-sm font-semibold leading-6 text-gray-900">No weather information available</p>
+      </div>
+    </li>
+  <% end %>
+</ul>

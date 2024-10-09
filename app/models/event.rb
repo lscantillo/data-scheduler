@@ -5,6 +5,16 @@ class Event < ApplicationRecord
   belongs_to :user, class_name: 'User'
   belongs_to :worker, class_name: 'User'
 
+  before_save :fetch_weather_info
+
+
+  def fetch_weather_info
+    if location.present?
+      weather_info = WeatherService.fetch_weather(location)
+      self.weather_info = weather_info
+    end
+  end
+
   def no_conflicting_events
     conflicts = Event.where(worker_id: worker_id)
                      .where("start_time < ? AND end_time > ?", end_time, start_time)

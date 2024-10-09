@@ -10,13 +10,35 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="m-5 text-gray-900 bg-gray-100">
-    <% if current_user %>
-    <p>Current user: <%= current_user.email %></p>
+  <body class="p-6 min-h-screen text-gray-900 bg-gray-100">
+    <header class="flex justify-between items-center mb-6">
+      <% if user_signed_in? %>
+        <div class="flex items-center space-x-4">
+          <p class="text-sm text-gray-700">Current user: <strong><%= current_user.email %></strong></p>
+          <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "inline-block text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md shadow-sm transition" %>
+        </div>
+      <% else %>
+        <%= button_to "Login", new_user_session_path, class: "inline-block text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md shadow-sm transition" %>
+      <% end %>
+    </header>
+
+    <!-- Notifications -->
+    <% if notice.present? %>
+      <div class="p-4 mb-4 text-sm text-green-800 bg-green-100 rounded-lg">
+        <%= notice %>
+      </div>
     <% end %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <% if alert.present? %>
+      <div class="p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <!-- Main Content -->
+    <main class="container mx-auto">
+      <%= yield %>
+    </main>
   </body>
+
 </html>
