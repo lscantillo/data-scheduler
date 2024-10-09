@@ -6,7 +6,11 @@ class Event < ApplicationRecord
   belongs_to :worker, class_name: 'User'
 
   before_save :fetch_weather_info
+  after_save :send_email
 
+  def send_email
+    EventMailer.new_event(self).deliver_now
+  end
 
   def fetch_weather_info
     if location.present?

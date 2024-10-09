@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1>New Event Created</h1>
+
+  <p>Hello,</p>
+
+  <p>A new event has been created with the following details:</p>
+
+  <ul>
+    <li><strong>Title:</strong> <%= @event.title %></li>
+    <li><strong>Start Time:</strong> <%= @event.start_time.strftime("%B %d, %Y at %I:%M %p") %></li>
+    <li><strong>End Time:</strong> <%= @event.end_time.strftime("%B %d, %Y at %I:%M %p") %></li>
+    <li><strong>Location:</strong> <%= @event.location %></li>
+    <% if @event.weather_info.present? %>
+      <li><strong>Weather:</strong> <%= @event.weather_info['weather_description'] %></li>
+    <% end %>
+  </ul>
+
+  <p>Please make sure to add this event to your calendar.</p>
+
+  <p>Thank you,<br>
+  Your Event Management Team</p>
+</body>
+</html>

@@ -33,7 +33,7 @@
 
   <div class="space-y-2">
     <%= form.label :worker_id, "Assign Worker", class: "block font-semibold" %>
-    <%= form.collection_select :worker_id, User.all, :id, :name, { prompt: "Select a worker" }, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+    <%= form.collection_select :worker_id, User.workers, :id, :name, { prompt: "Select a worker" }, class: "w-full p-2 border border-gray-300 rounded-lg" %>
   </div>
 
   <%= form.hidden_field :user_id, value: current_user.id %>
