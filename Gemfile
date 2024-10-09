@@ -80,3 +80,5 @@ gem "pagy", "~> 9.1"
 gem "blueprinter", "~> 1.1"
 
 gem "resend", "~> 0.13.0"
+
+gem "good_job", "~> 4.4"
