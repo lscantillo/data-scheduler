@@ -1,5 +1,20 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :bigint           not null, primary key
+#  name                   :string           default(""), not null
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  role                   :integer          default("user"), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
 class User < ApplicationRecord
-  has_many :created_events, class_name: 'Event', foreign_key: 'user_id', dependent: :destroy
+  has_many :created_events, class_name: 'Event', dependent: :destroy
   has_many :assigned_events, class_name: 'Event', foreign_key: 'worker_id', dependent: :destroy
 
   validates :name, presence: true

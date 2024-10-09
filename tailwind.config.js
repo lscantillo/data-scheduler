@@ -1,3 +1,5 @@
+const { plugin } = require("postcss");
+
 module.exports = {
   content: [
     './app/views/**/*.html.erb',

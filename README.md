@@ -30,6 +30,9 @@ This is an Event Management System built with Ruby on Rails. It allows users to 
    ```
    OPENWEATHER_API_KEY=your_api_key_here
    ```
+   ```
+   RESEND_API_KEY=your_api_key_here
+   ```
 
 ## Running the Application
 5. Start the Rails server:
@@ -37,6 +40,18 @@ This is an Event Management System built with Ruby on Rails. It allows users to 
    GOOD_JOB_EXECUTION_MODE=async rails server
    ```
 6. Visit `http://localhost:3000` in your web browser to access the application.
+
+## Running with Docker
+
+1. Build the Docker image:
+   ```
+   docker-compose build
+   ```
+
+2. Start the Docker container:
+   ```
+   docker-compose up
+   ```
 
 ## Testing the API
 

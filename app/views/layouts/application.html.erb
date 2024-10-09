@@ -17,8 +17,6 @@
           <p class="text-sm text-gray-700">Current user: <strong><%= current_user.email %></strong></p>
           <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "inline-block text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md shadow-sm transition" %>
         </div>
-      <% else %>
-        <%= button_to "Login", new_user_session_path, class: "inline-block text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md shadow-sm transition" %>
       <% end %>
     </header>
 

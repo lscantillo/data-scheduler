@@ -4,5 +4,4 @@ class EventJob < ApplicationJob
   def perform(event)
     EventMailer.new_event(event).deliver_now
   end
-
 end

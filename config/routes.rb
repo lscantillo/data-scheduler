@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root "events#index"
+  root 'events#index'
 
-  get "up" => "rails/health#show", as: :rails_health_check
+  get 'up' => 'rails/health#show', as: :rails_health_check
 
   devise_for :users
   resources :events
@@ -12,5 +12,4 @@ Rails.application.routes.draw do
       resources :events, only: [:index, :create, :show, :destroy]
     end
   end
-
 end
