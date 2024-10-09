@@ -11,7 +11,7 @@ class Event < ApplicationRecord
   def fetch_weather_info
     if location.present?
       weather_info = WeatherService.fetch_weather(location)
-      self.weather_info = weather_info
+      self.weather_info = weather_info if weather_info.present?
     end
   end
 
