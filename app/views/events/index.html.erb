@@ -1,17 +1,42 @@
-<p class="text-green-500"><%= notice %></p>
-<h1 class="text-3xl font-bold underline">
-    Events
-</h1>
+<!-- Notification -->
+<p class="mb-4 text-green-500"><%= notice %></p>
 
-<div id="events" class="space-y-4">
+<!-- Título y botón de nuevo evento -->
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-4xl font-bold text-gray-900">Events</h1>
+  <%= link_to "New event", new_event_path, class: "inline-block text-white bg-blue-500 hover:bg-blue-700 px-6 py-2 rounded-md shadow-md" %>
+</div>
+
+<!-- worker filter -->
+<div class="mb-6">
+  <%= form_with url: events_path, method: :get, local: true, class: "space-y-4" do |form| %>
+    <div class="flex items-center space-x-4">
+      <div class="flex-1">
+        <%= form.label :worker_id, "Worker Agenda", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.collection_select :worker_id, @workers, :id, :name, { prompt: "All workers" }, class: "mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      </div>
+      <div class="pt-5">
+        <%= form.submit "Filter", class: "inline-block text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md shadow-md" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- Listado de eventos -->
+<div id="events" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
   <% @events.each do |event| %>
-    <div class="p-4 rounded-lg border border-gray-300 shadow-sm">
+    <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-lg transition-shadow duration-200 hover:shadow-xl">
       <%= render event %>
-      <p class="mt-2">
-        <%= link_to "Show this event", event, class: "text-blue-500 hover:text-blue-700 underline" %>
+      <p class="mt-4">
+        <%= link_to "Show this event", event, class: "text-blue-600 hover:text-blue-800 font-semibold underline" %>
       </p>
     </div>
   <% end %>
 </div>
 
-<%= link_to "New event", new_event_path, class: "mt-4 inline-block text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded" %>
+<!-- Paginación con Pagy -->
+<div class="flex justify-center mt-6">
+  <%== pagy_nav(@pagy) %>
+</div>
+
+

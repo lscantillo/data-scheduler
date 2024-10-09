@@ -3,7 +3,19 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.all
+    if params[:worker_id].present?
+      @worker = User.find(params[:worker_id])
+      @pagy, @events = pagy(@worker.assigned_events.order(:start_time))
+    else
+      @pagy, @events = pagy(Event.order(:start_time))
+    end
+
+    @workers = User.where(role: :user) # Lista de trabajadores para el filtro
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @events }
+    end
   end
 
   # GET /events/1 or /events/1.json
@@ -65,6 +77,6 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :start_time, :end_time, :user_id, :worker_id, :location)
+      params.require(:event).permit(:title, :start_time, :end_time, :user_id, :worker_id, :location, :weather_info)
     end
 end
