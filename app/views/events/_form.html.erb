@@ -1,0 +1,44 @@
+<%= form_with(model: event, class: "space-y-6") do |form| %>
+  <% if event.errors.any? %>
+    <div class="p-4 text-red-500 bg-red-100 rounded">
+      <h2 class="mb-2 font-bold"><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul class="list-disc list-inside">
+        <% event.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-2">
+    <%= form.label :title, class: "block font-semibold" %>
+    <%= form.text_field :title, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= form.label :start_time, class: "block font-semibold" %>
+    <%= form.datetime_field :start_time, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= form.label :end_time, class: "block font-semibold" %>
+    <%= form.datetime_field :end_time, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= form.label :location, class: "block font-semibold" %>
+    <%= form.text_field :location, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= form.label :worker_id, "Assign Worker", class: "block font-semibold" %>
+    <%= form.collection_select :worker_id, User.all, :id, :name, { prompt: "Select a worker" }, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+  </div>
+
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div>
+    <%= form.submit class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </div>
+<% end %>

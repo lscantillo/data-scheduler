@@ -10,7 +10,13 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
+  <body class="m-5 text-gray-900 bg-gray-100">
+    <% if current_user %>
+    <p>Current user: <%= current_user.email %></p>
+    <% end %>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
