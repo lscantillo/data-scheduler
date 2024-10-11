@@ -76,3 +76,7 @@ gem "dotenv", "~> 3.1"
 gem "httparty", "~> 0.22.0"
 
 gem "pagy", "~> 9.1"
+
+gem "blueprinter", "~> 1.1"
+
+gem "resend", "~> 0.13.0"
