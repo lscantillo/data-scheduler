@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id           :bigint           not null, primary key
+#  title        :string
+#  start_time   :datetime
+#  end_time     :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  worker_id    :integer
+#  user_id      :integer
+#  location     :string
+#  weather_info :jsonb
+#
 class Event < ApplicationRecord
   validates :title, :start_time, :end_time, presence: true
   validate :no_conflicting_events
@@ -13,15 +28,15 @@ class Event < ApplicationRecord
   end
 
   def fetch_weather_info
-    if location.present?
-      weather_info = WeatherService.fetch_weather(location)
-      self.weather_info = weather_info if weather_info.present?
-    end
+    return unless location.present?
+
+    weather_info = WeatherService.fetch_weather(location)
+    self.weather_info = weather_info if weather_info.present?
   end
 
   def no_conflicting_events
-    conflicts = Event.where(worker_id: worker_id)
-                     .where("start_time < ? AND end_time > ?", end_time, start_time)
+    conflicts = Event.where(worker_id:)
+                     .where('start_time < ? AND end_time > ?', end_time, start_time)
     errors.add(:base, 'Conflicting event') if conflicts.exists?
   end
 end

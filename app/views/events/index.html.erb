@@ -1,5 +1,3 @@
-<!-- Notification -->
-<p class="mb-4 text-green-500"><%= notice %></p>
 
 <!-- Título y botón de nuevo evento -->
 <div class="flex justify-between items-center mb-6">
@@ -13,7 +11,7 @@
     <div class="flex items-center space-x-4">
       <div class="flex-1">
         <%= form.label :worker_id, "Worker Agenda", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.collection_select :worker_id, @workers, :id, :name, { prompt: "All workers" }, class: "mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+        <%= form.collection_select :worker_id, User.workers, :id, :name, { prompt: "All workers" }, class: "mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
       </div>
       <div class="pt-5">
         <%= form.submit "Filter", class: "inline-block text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md shadow-md" %>

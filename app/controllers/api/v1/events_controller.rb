@@ -1,17 +1,23 @@
-class Api::V1::EventsController <  Api::V1::ApplicationController
+class Api::V1::EventsController < Api::V1::ApplicationController
   after_action { pagy_headers_merge(@pagy) if @pagy }
-  before_action :set_event, only: %i[ show destroy ]
+  before_action :set_event, only: [:show, :destroy]
 
   def index
     if params[:worker_id].present?
       @worker = User.find(params[:worker_id])
-      @pagy, @events = pagy_array(@worker.assigned_events.order(:start_time))
+      @events = @worker.assigned_events
 
-      render json: { events: JSON.parse(EventBlueprint.render(@events)), pagy: pagy_metadata(@pagy)}, status: :ok
+      sorted_events = Events::SortedService.call(@events)
+
+      @pagy, @events = pagy_array(sorted_events)
+
+      render json: { events: JSON.parse(EventBlueprint.render(@events)), pagy: pagy_metadata(@pagy) },
+             status: :ok
     else
       @pagy, @events = pagy_array(Event.order(:start_time))
 
-      render json: { events: JSON.parse(EventBlueprint.render(@events)), pagy: pagy_metadata(@pagy)}, status: :ok
+      render json: { events: JSON.parse(EventBlueprint.render(@events)), pagy: pagy_metadata(@pagy) },
+             status: :ok
     end
   end
 
@@ -19,10 +25,10 @@ class Api::V1::EventsController <  Api::V1::ApplicationController
     event = Event.new(event_params)
 
     if event.save
-      render json: { result: "Event was successfully created." }, status: :created
+      render json: { result: 'Event was successfully created.' }, status: :created
     else
       render json: {
-        result: "Something went wrong.",
+        result: 'Something went wrong.',
         errors: event.errors.full_messages
       }, status: :unprocessable_entity
     end
@@ -35,26 +41,26 @@ class Api::V1::EventsController <  Api::V1::ApplicationController
 
   def destroy
     if @event.destroy
-      render json: { message: "Event was successfully destroyed." }, status: :ok
+      render json: { message: 'Event was successfully destroyed.' }, status: :ok
     else
       render json: {
-        message: "Failed to destroy the event.",
+        message: 'Failed to destroy the event.',
         errors: @event.errors.full_messages
       }, status: :unprocessable_entity
     end
   end
-
 
   private
 
   def set_event
     @event = Event.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Event not found" }, status: :not_found
+    render json: { error: 'Event not found' }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:title, :start_time, :end_time, :user_id, :worker_id, :location, :weather_info)
+    params.require(:event).permit(:title, :start_time, :end_time, :user_id, :worker_id, :location,
+                                  :weather_info)
   end
 end

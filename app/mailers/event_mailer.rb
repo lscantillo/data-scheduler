@@ -10,6 +10,5 @@ class EventMailer < ApplicationMailer
     ) do |format|
       format.html { render 'new_event' }
     end
-
   end
 end
