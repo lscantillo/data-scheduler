@@ -34,7 +34,7 @@ This is an Event Management System built with Ruby on Rails. It allows users to 
 ## Running the Application
 5. Start the Rails server:
    ```
-   rails server
+   GOOD_JOB_EXECUTION_MODE=async rails server
    ```
 6. Visit `http://localhost:3000` in your web browser to access the application.
 

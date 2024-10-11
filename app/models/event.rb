@@ -9,7 +9,7 @@ class Event < ApplicationRecord
   after_save :send_email
 
   def send_email
-    EventMailer.new_event(self).deliver_now
+    EventJob.perform_later(self)
   end
 
   def fetch_weather_info
